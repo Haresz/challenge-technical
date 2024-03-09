@@ -39,7 +39,7 @@ export default function Profile() {
     const id: any = localStorage.getItem("userId");
     dispatch(actionGetUserId(id));
     setDataUser(user);
-  }, [dispatch, user]);
+  }, [dispatch]);
 
   const profileSchema = Yup.object().shape({
     username: Yup.string().required("input is required"),

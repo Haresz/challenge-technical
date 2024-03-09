@@ -1,3 +1,16 @@
 {
-  "users": []
+  "users": [
+    {
+      "id": "8124ea78-94f7-4000-bd92-af0f2eca0e60",
+      "username": "Parsha",
+      "phoneNumber": 123456789,
+      "password": "123123"
+    },
+    {
+      "username": "lukman",
+      "phoneNumber": 123147,
+      "password": "124",
+      "id": "785ddbde-a49e-45f2-a56c-96bfbdde760a"
+    }
+  ]
 }
