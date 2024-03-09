@@ -6,12 +6,24 @@ const config: Config = {
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
+  darkMode: ["class"],
   theme: {
     extend: {
+      letterSpacing: {
+        "1": "0em",
+        "2": "0.025em",
+        "3": "0.05em",
+        "4": "0.1em",
+      },
+      colors: {
+        blue_primary: "#131167",
+        orange_primary: "#D38122",
+        gray_dark: "#666666",
+        gray_light: "#494949",
+      },
       backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        blue: "url('/bgBlue.png')",
+        orange: "url('/bgOrange.png')",
       },
     },
   },

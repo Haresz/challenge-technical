@@ -1,113 +1,109 @@
-import Image from "next/image";
+"use client";
+import { useEffect, useState } from "react";
+import ProgressSlider from "@/components/ProgressSlider";
+import ToggelThem from "@/components/ToggelThem";
+import { Box, Heading, Image, Text } from "@chakra-ui/react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import InputComponent from "@/components/InputComponent";
 
 export default function Home() {
+  const items: any = [
+    {
+      title: "Lorem1",
+      desc: `"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+      "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+      `,
+    },
+    {
+      title: "Lorem2",
+      desc: `"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+      "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+      `,
+    },
+    {
+      title: "Lorem3",
+      desc: `"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+      "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+      `,
+    },
+    {
+      title: "Lorem4",
+      desc: `"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..."
+      "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."
+      `,
+    },
+  ];
+
+  const LoginSchema = Yup.object().shape({
+    username: Yup.string().required("input is requied"),
+    password: Yup.string().required("input is requied"),
+  });
+
+  const formik = useFormik({
+    initialValues: {
+      username: "",
+      password: "",
+    },
+    validationSchema: LoginSchema,
+    onSubmit: (values: any) => {
+      alert(values);
+    },
+  });
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">src/app/page.tsx</code>
-        </p>
-        <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-          <a
-            className="pointer-events-none flex place-items-center gap-2 p-8 lg:pointer-events-auto lg:p-0"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="flex justify-between h-screen">
+      <Box
+        className="lg:flex hidden py-16 flex-1  flex-col justify-around items-center dark:bg-blue bg-orange"
+        bgSize={"100% 114vh"}
+      >
+        <Image width="50%" src={"vocagame.png"} alt={"vocaGame"} />
+        <ProgressSlider items={items} />
+      </Box>
+      <Box className="flex-1">
+        <ToggelThem />
+        <div className="flex flex-col mt-8 lg:ml-16 lg:mr-16 ml-8 mr-8 ">
+          <Heading
+            className="-tracking-3 dark:text-blue_primary text-orange_primary"
+            as="h1"
+            size={{ base: "2xl", lg: "4xl" }}
           >
-            By{" "}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className="dark:invert"
-              width={100}
-              height={24}
-              priority
+            Silahkan LogIn
+          </Heading>
+          <Text marginTop={12} fontSize="lg">
+            Masukkan Username dan password anda untuk masuk
+          </Text>
+          <form className="mt-12" onSubmit={formik.handleSubmit}>
+            <InputComponent
+              placeholder="Username"
+              name="username"
+              width={{ base: "100%", lg: 500 }}
+              onChange={formik.handleChange}
+              handleError={formik.errors.username}
             />
-          </a>
+            <InputComponent
+              placeholder="Password"
+              name="password"
+              type="password"
+              width={{ base: "100%", lg: 500 }}
+              onChange={formik.handleChange}
+              handleError={formik.errors.password}
+            />
+            <button className="lg:w-[500px] w-full text-center font-semibold py-3 dark:bg-purple-200 bg-orange-200 dark:text-purple-800 text-orange-800 rounded-full">
+              Masuk Sekarang
+            </button>
+            <Text
+              width={{ base: "100%", lg: 500 }}
+              className="text-gray_dark font-medium text-center mt-12"
+            >
+              Belum punya akun?
+              <span className="font-bold dark:text-blue_primary text-orange_primary">
+                Daftar Sekarang
+              </span>
+            </Text>
+          </form>
         </div>
-      </div>
-
-      <div className="relative flex place-items-center before:absolute before:h-[300px] before:w-full sm:before:w-[480px] before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full sm:after:w-[240px] after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 before:lg:h-[360px] z-[-1]">
-        <Image
-          className="relative dark:drop-shadow-[0_0_0.3rem_#ffffff70] dark:invert"
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore starter templates for Next.js.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{" "}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
+      </Box>
+    </div>
   );
 }
