@@ -1,24 +1,42 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+## Overview
+
+This project showcases the utilization of modern web development technologies and tools to create a responsive and efficient web application. The web application has been diligently developed to meet the specified requirements, ensuring its functionality and usability align with the project objectives. Each component and feature has been implemented with utmost care and attention to detail, reflecting a commitment to delivering a high-quality user experience.
+
+` happy coding 😊`
 
 ## Getting Started
 
-First, run the development server:
+1. Install package:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2.  Run fake-api
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+go to the src/fake-api directory ( `cd /src/fake-api`) and run fake-api ( run in port 2000) :
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+```bash
+npx json-server db.json -p 2000
+```
+
+3.  Run the development server
+
+```bash
+npx run dev
+```
+
+## Specifications tools
+
+- ReactJS: Our front-end is built using ReactJS, providing a modern and efficient user interface.
+- Next.js: We leverage Next.js for server-side rendering and seamless routing in our application.
+- Redux Toolkit: Managing state in our application is made easy and efficient with Redux Toolkit.
+- Tailwind CSS: We utilize Tailwind CSS for rapid UI development and easy customization.
+- Chakra UI: To further enhance our UI, we employ Chakra UI for its elegant and accessible component library.
+- Formik: Implemented for form handling, simplifying the process of managing form data and validation.
+- js-cookie: Handling cookies in our application is simplified with js-cookie, ensuring smooth user experiences.
+- json-server: For a realistic development environment, we use json-server to mock our API responses, making development and testing seamless.
+- Axios: Integration with our API is seamless thanks to Axios, enabling smooth communication between our front-end and back-end.
 
 ## Learn More
 
