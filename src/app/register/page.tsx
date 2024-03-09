@@ -1,25 +1,34 @@
 "use client";
 // import ui
 import ToggelThem from "@/components/ToggelThem";
-import { Button, Heading, Image, Text, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Heading,
+  Image,
+  Text,
+  useToast as UseToast,
+} from "@chakra-ui/react";
 import InputComponent from "@/components/InputComponent";
 
 // import validation form
-import { useFormik } from "formik";
+import { useFormik as UseFormik } from "formik";
 import * as Yup from "yup";
 import { v4 as uuidv4 } from "uuid";
 
 // import redux
-import { useAppDispatch } from "@/lib/hooks";
-import { actionRegister } from "@/lib/features/users/usersSlice";
-import { useRouter } from "next/navigation";
+import { UseAppDispatch } from "@/lib/hooks";
+import {
+  actionGetUserId,
+  actionRegister,
+} from "@/lib/features/users/usersSlice";
+import { useRouter as UseRouter } from "next/navigation";
 import Cookies from "js-cookie";
 import Link from "next/link";
 
 export default function page() {
-  const dispatch = useAppDispatch();
-  const router = useRouter();
-  const toast = useToast();
+  const dispatch = UseAppDispatch();
+  const router = UseRouter();
+  const toast = UseToast();
 
   const RegisterSchema = Yup.object().shape({
     id: Yup.string().required(),
@@ -33,6 +42,7 @@ export default function page() {
     if (values.confirmPassword == values.password) {
       delete values.confirmPassword;
       console.log(values, "handleSubmit");
+      localStorage.setItem("userId", values.id);
       dispatch(actionRegister(values));
       router.push("/profile");
       toast({
@@ -54,7 +64,7 @@ export default function page() {
     }
   };
 
-  const formik = useFormik({
+  const formik = UseFormik({
     initialValues: {
       id: uuidv4(),
       username: "",
@@ -75,6 +85,7 @@ export default function page() {
         className="lg:inline-block hidden absolute mt-4 ml-4"
         width={300}
         src="vocagame.png"
+        alt="icon voca game"
       />
 
       <form

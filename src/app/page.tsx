@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { useEffect } from "react";
-import { useAppDispatch } from "@/lib/hooks";
+import { UseAppDispatch } from "@/lib/hooks";
 import { actionGetUsers } from "@/lib/features/users/usersSlice";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
@@ -22,13 +22,13 @@ import Link from "next/link";
 
 export default function Home() {
   const users: any = useSelector((state: RootState) => state.userSlice.users);
-  const dispatch = useAppDispatch();
+  const dispatch = UseAppDispatch();
   const router = useRouter();
   const toast = useToast();
 
   useEffect(() => {
     dispatch(actionGetUsers());
-  }, []);
+  });
 
   const items: any = [
     {

@@ -6,7 +6,7 @@ import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import InputComponent from "@/components/InputComponent";
-import { useAppDispatch } from "@/lib/hooks";
+import { UseAppDispatch } from "@/lib/hooks";
 import { RootState } from "@/lib/store";
 import {
   actionGetUserId,
@@ -18,7 +18,7 @@ import { redirect } from "next/navigation";
 
 export default function Profile() {
   const user: any = useSelector((state: RootState) => state.userSlice.user);
-  const dispatch = useAppDispatch();
+  const dispatch = UseAppDispatch();
   const toast = useToast();
   const [dataUser, setDataUser] = useState(user);
 
@@ -33,13 +33,13 @@ export default function Profile() {
       });
       redirect("/");
     }
-  }, []);
+  });
 
   useEffect(() => {
     const id: any = localStorage.getItem("userId");
     dispatch(actionGetUserId(id));
     setDataUser(user);
-  }, [dispatch]);
+  }, [dispatch, user]);
 
   const profileSchema = Yup.object().shape({
     username: Yup.string().required("input is required"),
@@ -77,7 +77,6 @@ export default function Profile() {
       password: user?.password || "",
       newPassword: "",
     });
-    console.log(formik.values); // Log formik values to the console
   }, [user]);
 
   const handleLogOut = () => {
@@ -105,10 +104,10 @@ export default function Profile() {
           Lorem
         </Heading>
         <Text width={{ base: 300, sm: 500 }} marginTop={4} fontSize="md">
-          "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
-          consectetur, adipisci velit..." "There is no one who loves pain
-          itself, who seeks after it and wants to have it, simply because it is
-          pain..."
+          &quot; Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
+          consectetur, adipisci velit...&quot; &quot;There is no one who loves
+          pain itself, who seeks after it and wants to have it, simply because
+          it is pain...&quot;
         </Text>
       </div>
       <div className="flex justify-between mt-4 px-[5%]">

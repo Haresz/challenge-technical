@@ -39,6 +39,24 @@
       "phoneNumber": 82225384814,
       "password": "123",
       "id": "f1c12d7c-228f-473e-9eee-6b4cb323cc94"
+    },
+    {
+      "id": "d36881b0-9a4b-460d-aa48-5f8393d6b22e",
+      "username": "persi",
+      "phoneNumber": 123456789,
+      "password": "123"
+    },
+    {
+      "id": "aa87d32a-6e29-4bb8-8098-018e8a55abc6",
+      "username": "panji",
+      "phoneNumber": 123456789,
+      "password": "123"
+    },
+    {
+      "id": "af064f47-1239-4852-b84c-2c9c13243001",
+      "username": "pernah",
+      "phoneNumber": 123456789,
+      "password": "090205"
     }
   ]
 }
