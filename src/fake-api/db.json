@@ -1,0 +1,44 @@
+{
+  "users": [
+    {
+      "id": "4f39"
+    },
+    {
+      "username": "lukman",
+      "phoneNumber": 82225384814,
+      "password": "090205",
+      "newPassword": "090205",
+      "id": "7ddcde01-d103-47c4-b9da-1064fdeddc61"
+    },
+    {
+      "id": "5c0f7de4-7e42-454a-af1f-7405fc4df5d5",
+      "username": "Pancas",
+      "phoneNumber": 82225384814,
+      "password": "112233"
+    },
+    {
+      "id": "27c76267-4e1f-4893-944c-f8b3cb179630",
+      "username": "permanazxsd",
+      "phoneNumber": 844566789,
+      "password": "88888888"
+    },
+    {
+      "id": "d8a1e0f1-7b2f-4d7b-9599-334c2afb360e",
+      "username": "hinje",
+      "phoneNumber": 83339477215,
+      "password": "123"
+    },
+    {
+      "id": "a3ec75ca-d757-4d03-b935-c25c8576dd2c",
+      "username": "wisata",
+      "phoneNumber": 123456789,
+      "password": "123"
+    },
+    {
+      "username": "dana",
+      "phoneNumber": 82225384814,
+      "password": "123",
+      "id": "f1c12d7c-228f-473e-9eee-6b4cb323cc94"
+    }
+  ]
+}

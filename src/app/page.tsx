@@ -1,13 +1,35 @@
 "use client";
-import { useEffect, useState } from "react";
+// import ui
 import ProgressSlider from "@/components/ProgressSlider";
 import ToggelThem from "@/components/ToggelThem";
-import { Box, Heading, Image, Text } from "@chakra-ui/react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import { Box, Heading, Image, Text, useToast } from "@chakra-ui/react";
 import InputComponent from "@/components/InputComponent";
 
+// import validation form
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
+// import redux
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
+import { useEffect } from "react";
+import { useAppDispatch } from "@/lib/hooks";
+import { actionGetUsers } from "@/lib/features/users/usersSlice";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import { v4 as uuidv4 } from "uuid";
+import Link from "next/link";
+
 export default function Home() {
+  const users: any = useSelector((state: RootState) => state.userSlice.users);
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const toast = useToast();
+
+  useEffect(() => {
+    dispatch(actionGetUsers());
+  }, []);
+
   const items: any = [
     {
       title: "Lorem1",
@@ -47,7 +69,31 @@ export default function Home() {
     },
     validationSchema: LoginSchema,
     onSubmit: (values: any) => {
-      alert(values);
+      const index = users.findIndex(
+        (val: any) => val.username === values.username
+      );
+      if (
+        users[index]?.password == values.password &&
+        users[index]?.username == values.username
+      ) {
+        localStorage.setItem("userId", users[index].id);
+        router.push("/profile");
+        toast({
+          title: "login successful",
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+        var inFifteenMinutes = new Date(new Date().getTime() + 1 * 60 * 1000);
+        Cookies.set("token", uuidv4(), { expires: inFifteenMinutes });
+      } else {
+        toast({
+          title: "username or password incorrect",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
     },
   });
 
@@ -89,7 +135,10 @@ export default function Home() {
               onChange={formik.handleChange}
               handleError={formik.errors.password}
             />
-            <button className="lg:w-[500px] w-full text-center font-semibold py-3 dark:bg-purple-200 bg-orange-200 dark:text-purple-800 text-orange-800 rounded-full">
+            <button
+              type="submit"
+              className="lg:w-[500px] w-full text-center font-semibold py-3 dark:bg-purple-200 bg-orange-200 dark:text-purple-800 text-orange-800 rounded-full"
+            >
               Masuk Sekarang
             </button>
             <Text
@@ -97,9 +146,12 @@ export default function Home() {
               className="text-gray_dark font-medium text-center mt-12"
             >
               Belum punya akun?
-              <span className="font-bold dark:text-blue_primary text-orange_primary">
+              <Link
+                href={"/register"}
+                className="font-bold dark:text-blue_primary text-orange_primary"
+              >
                 Daftar Sekarang
-              </span>
+              </Link>
             </Text>
           </form>
         </div>

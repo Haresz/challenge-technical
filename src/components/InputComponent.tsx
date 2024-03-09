@@ -1,5 +1,11 @@
 import React from "react";
-import { Input, InputGroup, InputRightElement, Text } from "@chakra-ui/react";
+import {
+  Box,
+  Input,
+  InputGroup,
+  InputRightElement,
+  Text,
+} from "@chakra-ui/react";
 import { Eye, EyeClosed } from "@phosphor-icons/react";
 
 export default function InputComponent(props: any) {
@@ -7,10 +13,10 @@ export default function InputComponent(props: any) {
   const handleClick = () => setShow(!show);
 
   return (
-    <div className="container-input w-full lg:w-auto mb-8">
+    <Box width={props.width} className="container-input lg:w-auto mb-8">
       <Text
         textColor={props.color || "#666666"}
-        className="text-lg font-semibold "
+        className="text-lg font-semibold"
         mb="8px"
       >
         {props.placeholder}
@@ -24,6 +30,7 @@ export default function InputComponent(props: any) {
           px={8}
           textColor={props.color}
           onChange={props.onChange}
+          value={props.value}
         />
         {props.type == "password" ? (
           <InputRightElement className="mr-4" width="4.5rem">
@@ -38,6 +45,6 @@ export default function InputComponent(props: any) {
           {JSON.stringify(props.handleError)}
         </div>
       )}
-    </div>
+    </Box>
   );
 }

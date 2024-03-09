@@ -1,13 +1,40 @@
 "use client";
 import ToggelThem from "@/components/ToggelThem";
 import { SignOut, UserCircle } from "@phosphor-icons/react";
-import { Box, Heading, Image, Text } from "@chakra-ui/react";
-import React from "react";
+import { Box, Heading, Image, Text, useToast } from "@chakra-ui/react";
+import React, { useEffect, useState } from "react";
 import * as Yup from "yup";
 import { useFormik } from "formik";
 import InputComponent from "@/components/InputComponent";
+import { useAppDispatch } from "@/lib/hooks";
+import { RootState } from "@/lib/store";
+import {
+  actionGetUserId,
+  actionUpdateUser,
+} from "@/lib/features/users/usersSlice";
+import { useSelector } from "react-redux";
+import Cookies from "js-cookie";
+import { redirect } from "next/navigation";
 
 export default function Profile() {
+  const user: any = useSelector((state: RootState) => state.userSlice.user);
+  const dispatch = useAppDispatch();
+  const toast = useToast();
+  const [dataUser, setDataUser] = useState(user);
+
+  useEffect(() => {
+    const token = Cookies.get("token");
+    if (!token) {
+      redirect("/");
+    }
+  }, []);
+
+  useEffect(() => {
+    const id: any = localStorage.getItem("userId");
+    dispatch(actionGetUserId(id));
+    setDataUser(user);
+  }, [dispatch]);
+
   const profileSchema = Yup.object().shape({
     username: Yup.string().required("input is required"),
     phoneNumber: Yup.number().required("input is required"),
@@ -17,16 +44,35 @@ export default function Profile() {
 
   const formik = useFormik({
     initialValues: {
-      username: "",
-      phoneNumber: "",
-      password: "",
+      username: dataUser.username || "",
+      phoneNumber: dataUser.phoneNumber || "",
+      password: dataUser.password || "",
       newPassword: "",
     },
     validationSchema: profileSchema,
     onSubmit: (values: any) => {
-      alert(values);
+      toast({
+        title: "update successful",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      setDataUser(values);
+      values.password = values.newPassword;
+      delete values.newPassword;
+      dispatch(actionUpdateUser(values));
     },
   });
+
+  useEffect(() => {
+    formik.setValues({
+      username: user?.username || "",
+      phoneNumber: user?.phoneNumber || "",
+      password: user?.password || "",
+      newPassword: "",
+    });
+    console.log(formik.values); // Log formik values to the console
+  }, [user]);
   return (
     <div>
       <ToggelThem />
@@ -41,7 +87,7 @@ export default function Profile() {
         <Heading as="h1" size={{ base: "2xl", lg: "4xl" }}>
           Lorem
         </Heading>
-        <Text width={500} marginTop={4} fontSize="md">
+        <Text width={{ base: 300, sm: 500 }} marginTop={4} fontSize="md">
           "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,
           consectetur, adipisci velit..." "There is no one who loves pain
           itself, who seeks after it and wants to have it, simply because it is
@@ -52,7 +98,7 @@ export default function Profile() {
         <div className="flex items-center gap-2 bold">
           <UserCircle color="black" size={60} />
           <Text fontWeight="bold" fontSize="lg">
-            user name
+            {dataUser.username}
           </Text>
         </div>
         <button className=" w-fit px-6 text-center font-bold py-3 dark:bg-purple-200 bg-orange-200 dark:text-purple-800 text-orange-800 rounded-full">
@@ -78,11 +124,12 @@ export default function Profile() {
           >
             🖋️ Edit Profile
           </Heading>
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <InputComponent
               color="#FFFFF"
               placeholder="First Name"
               name="username"
+              value={formik.values.username}
               width={"100%"}
               onChange={formik.handleChange}
               handleError={formik.errors.username}
@@ -91,6 +138,7 @@ export default function Profile() {
               color="#FFFFF"
               placeholder="Phone Number"
               name="phoneNumber"
+              value={formik.values.phoneNumber}
               type="number"
               width={"100%"}
               onChange={formik.handleChange}
@@ -100,6 +148,7 @@ export default function Profile() {
               color="#FFFFF"
               placeholder="Old Password"
               name="password"
+              value={formik.values.password}
               type="password"
               width={"100%"}
               onChange={formik.handleChange}
@@ -114,7 +163,10 @@ export default function Profile() {
               onChange={formik.handleChange}
               handleError={formik.errors.newPassword}
             />
-            <button className=" w-fit px-6 font-bold py-3 dark:bg-purple-200 bg-orange-200 dark:text-purple-800 text-orange-800 rounded-full">
+            <button
+              type="submit"
+              className=" w-fit px-6 font-bold py-3 dark:bg-purple-200 bg-orange-200 dark:text-purple-800 text-orange-800 rounded-full"
+            >
               Edit Profile →
             </button>
           </form>

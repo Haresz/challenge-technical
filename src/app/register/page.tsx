@@ -1,31 +1,75 @@
 "use client";
-import React from "react";
+// import ui
 import ToggelThem from "@/components/ToggelThem";
-import { Button, Heading, Image, Text } from "@chakra-ui/react";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+import { Button, Heading, Image, Text, useToast } from "@chakra-ui/react";
 import InputComponent from "@/components/InputComponent";
 
+// import validation form
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import { v4 as uuidv4 } from "uuid";
+
+// import redux
+import { useAppDispatch } from "@/lib/hooks";
+import { actionRegister } from "@/lib/features/users/usersSlice";
+import { useRouter } from "next/navigation";
+import Cookies from "js-cookie";
+import Link from "next/link";
+
 export default function page() {
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const toast = useToast();
+
   const RegisterSchema = Yup.object().shape({
+    id: Yup.string().required(),
     username: Yup.string().required("input is required"),
     phoneNumber: Yup.number().required("input is required"),
     password: Yup.string().required("input is required"),
     confirmPassword: Yup.string().required("input is required"),
   });
 
+  const handleSubmit = (values: any) => {
+    if (values.confirmPassword == values.password) {
+      delete values.confirmPassword;
+      console.log(values, "handleSubmit");
+      dispatch(actionRegister(values));
+      router.push("/profile");
+      toast({
+        title: "Account created.",
+        description: "We've created your account for you.",
+        status: "success",
+        duration: 2000,
+        isClosable: true,
+      });
+      var inFifteenMinutes = new Date(new Date().getTime() + 1 * 60 * 1000);
+      Cookies.set("token", uuidv4(), { expires: inFifteenMinutes });
+    } else {
+      toast({
+        title: "Password not match.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    }
+  };
+
   const formik = useFormik({
     initialValues: {
+      id: uuidv4(),
       username: "",
-      phoneNumber: "",
+      phoneNumber: null,
       password: "",
       confirmPassword: "",
     },
     validationSchema: RegisterSchema,
-    onSubmit: () => {},
+    onSubmit: (values: any) => {
+      handleSubmit(values);
+    },
   });
+
   return (
-    <div className="dark:bg-blue bg-orange w-full h-screen text-white">
+    <div className="dark:bg-blue bg-orange w-full lg:h-screen h-fit lg:p-0 pb-4 text-white">
       <ToggelThem />
       <Image
         className="lg:inline-block hidden absolute mt-4 ml-4"
@@ -33,7 +77,10 @@ export default function page() {
         src="vocagame.png"
       />
 
-      <form className="flex flex-col px-8 items-center justify-center mt-4">
+      <form
+        onSubmit={formik.handleSubmit}
+        className="flex flex-col px-8 items-center justify-center mt-4"
+      >
         <Heading
           className="-tracking-3"
           as="h1"
@@ -74,20 +121,28 @@ export default function page() {
           color="#FFFFF"
           placeholder="Confirm Password"
           name="confirmPassword"
-          type="confirmPassword"
+          type="password"
           width={{ base: "100%", lg: 500 }}
           onChange={formik.handleChange}
           handleError={formik.errors.confirmPassword}
         />
-        <Button borderRadius={50} className="lg:w-[500px] w-full" size="lg">
-          Button
+        <Button
+          type="submit"
+          borderRadius={50}
+          className="lg:w-[500px] w-full"
+          size="lg"
+          width={{ base: "100%", lg: 500 }}
+        >
+          Submit
         </Button>
         <Text
           width={{ base: "100%", lg: 500 }}
           className="text-white font-medium text-center mt-4"
         >
           Sudah punya akun?
-          <span className="font-bold">LogIn Sekarang</span>
+          <Link className="font-bold" href={"/"}>
+            LogIn Sekarang
+          </Link>
         </Text>
       </form>
     </div>
