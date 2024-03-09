@@ -25,6 +25,12 @@ export default function Profile() {
   useEffect(() => {
     const token = Cookies.get("token");
     if (!token) {
+      toast({
+        title: "Token expired",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
       redirect("/");
     }
   }, []);
@@ -73,6 +79,17 @@ export default function Profile() {
     });
     console.log(formik.values); // Log formik values to the console
   }, [user]);
+
+  const handleLogOut = () => {
+    Cookies.remove("token");
+    location.reload();
+    toast({
+      title: "logOut successful",
+      status: "success",
+      duration: 2000,
+      isClosable: true,
+    });
+  };
   return (
     <div>
       <ToggelThem />
@@ -98,7 +115,7 @@ export default function Profile() {
         <div className="flex items-center gap-2 bold">
           <UserCircle color="black" size={60} />
           <Text fontWeight="bold" fontSize="lg">
-            {dataUser.username}
+            {user.username}
           </Text>
         </div>
         <button className=" w-fit px-6 text-center font-bold py-3 dark:bg-purple-200 bg-orange-200 dark:text-purple-800 text-orange-800 rounded-full">
@@ -111,10 +128,13 @@ export default function Profile() {
             <UserCircle color="black" size={40} />
             <Text marginLeft={4}>Profil</Text>
           </div>
-          <div className="pt-4 flex items-center lg:border-t-2 border-red-600 text-red-600">
+          <button
+            onClick={handleLogOut}
+            className="pt-4 flex items-center lg:border-t-2 border-red-600 text-red-600 cursor-pointer"
+          >
             <SignOut size={32} />
             <Text marginLeft={4}>LogOut</Text>
-          </div>
+          </button>
         </Box>
         <Box className="border-2 rounded-lg lg:w-[76%] lg:mt-0 mt-8 p-8">
           <Heading
